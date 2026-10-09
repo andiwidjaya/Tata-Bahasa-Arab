@@ -497,8 +497,9 @@ export async function fetchCourseChapters(courseCategory: string) {
       .eq('course_id', course.id)
       .order('order_index', { ascending: true });
 
-    if (!chaptersData || chaptersData.length === 0) {
-      return FALLBACK_COURSES[courseCategory] || { course: null, chapters: [] };
+    const fallbackObj = FALLBACK_COURSES[courseCategory];
+    if (!chaptersData || chaptersData.length < (fallbackObj?.chapters.length || 0)) {
+      return fallbackObj || { course: null, chapters: [] };
     }
 
     let completedLessonIds: string[] = [];
