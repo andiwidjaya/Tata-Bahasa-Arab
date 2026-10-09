@@ -17,11 +17,28 @@ export function LessonCompletion({ lessonId, isCompletedInitial, xpReward }: Les
   const [loading, setLoading] = React.useState(false);
   const router = useRouter();
 
+  React.useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("completed_lessons") || "[]");
+      if (saved.includes(lessonId)) {
+        setIsCompleted(true);
+      }
+    } catch (e) {}
+  }, [lessonId]);
+
   const handleComplete = async () => {
     if (isCompleted || loading) return;
 
     setLoading(true);
     try {
+      try {
+        const saved = JSON.parse(localStorage.getItem("completed_lessons") || "[]");
+        if (!saved.includes(lessonId)) {
+          saved.push(lessonId);
+          localStorage.setItem("completed_lessons", JSON.stringify(saved));
+        }
+      } catch (e) {}
+
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
 
@@ -42,12 +59,14 @@ export function LessonCompletion({ lessonId, isCompletedInitial, xpReward }: Les
           source: "lesson_completion",
           reference_id: lessonId,
         });
-
-        setIsCompleted(true);
-        router.refresh();
       }
+
+      setIsCompleted(true);
+      router.refresh();
     } catch (err) {
       console.error("Failed to complete lesson", err);
+      setIsCompleted(true);
+      router.refresh();
     } finally {
       setLoading(false);
     }
