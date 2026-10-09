@@ -54,9 +54,9 @@ export default function GamesPage() {
                 <CardDescription>{g.description}</CardDescription>
               </CardHeader>
               <CardContent>
-                <Link href={g.id === 'word-builder' ? '/games' : `/games/${g.id}`}>
-                  <Button className="w-full" variant={g.id === 'word-builder' ? 'outline' : 'default'}>
-                    <span>{g.id === 'word-builder' ? 'Segera Hadir' : 'Mainkan Sekarang ⚡'}</span>
+                <Link href={`/games/${g.id}`}>
+                  <Button className="w-full">
+                    <span>Mainkan Sekarang ⚡</span>
                   </Button>
                 </Link>
               </CardContent>
