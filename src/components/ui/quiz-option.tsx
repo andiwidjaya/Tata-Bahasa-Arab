@@ -9,10 +9,14 @@ interface QuizOptionProps {
   option: QuizOptionType;
   isSelected: boolean;
   status?: 'idle' | 'correct' | 'incorrect';
+  index?: number;
+  label?: string;
   onSelect: () => void;
 }
 
-export function QuizOption({ option, isSelected, status = 'idle', onSelect }: QuizOptionProps) {
+export function QuizOption({ option, isSelected, status = 'idle', index = 0, label, onSelect }: QuizOptionProps) {
+  const badgeLabel = label || String.fromCharCode(65 + index);
+
   return (
     <button
       onClick={onSelect}
@@ -27,10 +31,10 @@ export function QuizOption({ option, isSelected, status = 'idle', onSelect }: Qu
     >
       <div className="flex items-center space-x-3">
         <span className={cn(
-          "w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs border transition",
+          "w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs border transition shrink-0",
           isSelected ? "bg-emerald-600 text-white border-emerald-600" : "border-slate-300 dark:border-slate-700 text-slate-500"
         )}>
-          {option.id.toUpperCase()}
+          {badgeLabel}
         </span>
         <span className="font-medium text-slate-800 dark:text-slate-200">{option.text}</span>
       </div>

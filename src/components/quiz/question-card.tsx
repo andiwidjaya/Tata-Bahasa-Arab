@@ -73,7 +73,7 @@ export function QuestionCard({
         </div>
       ) : (
         <div className="space-y-3">
-          {question.options.map((opt) => {
+          {question.options.map((opt, idx) => {
             const isSelected = userAnswer?.selectedOptionId === opt.id;
             let status: "idle" | "correct" | "incorrect" = "idle";
             if (isSubmitted) {
@@ -84,6 +84,7 @@ export function QuestionCard({
             return (
               <QuizOption
                 key={opt.id}
+                index={idx}
                 option={{
                   id: opt.id,
                   text: opt.optionText,

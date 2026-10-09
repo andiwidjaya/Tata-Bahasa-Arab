@@ -171,9 +171,10 @@ export function IrabBattleGame({ questions }: IrabBattleProps) {
           />
 
           <div className="space-y-3">
-            {currentQuestion.options.map((opt) => (
+            {currentQuestion.options.map((opt, idx) => (
               <QuizOption
                 key={opt.id}
+                index={idx}
                 option={{
                   id: opt.id,
                   text: opt.optionText,
