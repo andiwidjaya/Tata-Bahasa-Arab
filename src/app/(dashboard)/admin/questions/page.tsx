@@ -2,13 +2,13 @@ import { Suspense } from "react";
 import { PageContainer } from "@/components/layout/page-container";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { AdminService } from "@/services/admin.service";
+import { AdminServerService } from "@/services/admin-server.service";
 import { connection } from "next/server";
 import { HelpCircle } from "lucide-react";
 
 async function AdminQuestionsContent() {
   await connection();
-  const questions = await AdminService.getQuestions();
+  const questions = await AdminServerService.getQuestions();
 
   return (
     <PageContainer

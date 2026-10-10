@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { AdminService } from "@/services/admin.service";
+import { AdminServerService } from "@/services/admin-server.service";
 import { AdminCMS } from "@/components/admin/admin-cms";
 import { connection } from "next/server";
 
@@ -7,13 +7,13 @@ async function AdminPageContent() {
   await connection();
 
   const [courses, chapters, lessons, questions, quizzes, users, audios] = await Promise.all([
-    AdminService.getCourses(),
-    AdminService.getChapters(),
-    AdminService.getLessons(),
-    AdminService.getQuestions(),
-    AdminService.getQuizzes(),
-    AdminService.getUsers(),
-    AdminService.getAudios(),
+    AdminServerService.getCourses(),
+    AdminServerService.getChapters(),
+    AdminServerService.getLessons(),
+    AdminServerService.getQuestions(),
+    AdminServerService.getQuizzes(),
+    AdminServerService.getUsers(),
+    AdminServerService.getAudios(),
   ]);
 
   const defaultCourses = courses.length > 0 ? courses : [

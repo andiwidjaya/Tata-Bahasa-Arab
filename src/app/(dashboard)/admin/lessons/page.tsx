@@ -2,13 +2,13 @@ import { Suspense } from "react";
 import { PageContainer } from "@/components/layout/page-container";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { AdminService } from "@/services/admin.service";
+import { AdminServerService } from "@/services/admin-server.service";
 import { connection } from "next/server";
 import { BookOpen } from "lucide-react";
 
 async function AdminLessonsContent() {
   await connection();
-  const lessons = await AdminService.getLessons();
+  const lessons = await AdminServerService.getLessons();
 
   return (
     <PageContainer

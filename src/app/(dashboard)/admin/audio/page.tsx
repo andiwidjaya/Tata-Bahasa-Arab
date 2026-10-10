@@ -2,13 +2,13 @@ import { Suspense } from "react";
 import { PageContainer } from "@/components/layout/page-container";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { AdminService } from "@/services/admin.service";
+import { AdminServerService } from "@/services/admin-server.service";
 import { connection } from "next/server";
 import { Volume2 } from "lucide-react";
 
 async function AdminAudioContent() {
   await connection();
-  const audios = await AdminService.getAudios();
+  const audios = await AdminServerService.getAudios();
 
   return (
     <PageContainer

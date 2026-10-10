@@ -2,14 +2,14 @@ import { Suspense } from "react";
 import { PageContainer } from "@/components/layout/page-container";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { AdminService } from "@/services/admin.service";
+import { AdminServerService } from "@/services/admin-server.service";
 import { connection } from "next/server";
 import { BookOpen, Layers, HelpCircle, Volume2, ShieldCheck, Plus, Trash2 } from "lucide-react";
 import Link from "next/link";
 
 async function AdminCoursesContent() {
   await connection();
-  const courses = await AdminService.getCourses();
+  const courses = await AdminServerService.getCourses();
 
   return (
     <PageContainer

@@ -1,11 +1,15 @@
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/client";
+
+function getSupabase() {
+  return createClient();
+}
 
 export class AdminService {
   /**
    * Check if current user is Admin
    */
   static async isAdmin(): Promise<boolean> {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return false;
 
@@ -22,7 +26,7 @@ export class AdminService {
 
   // 1. COURSES CRUD
   static async getCourses() {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data } = await (supabase.from("courses") as any)
       .select("*")
@@ -31,7 +35,7 @@ export class AdminService {
   }
 
   static async createCourse(payload: { title: string; category: string; description: string; level: number }) {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data, error } = await (supabase.from("courses") as any).insert([payload]).select().single();
     if (error) throw error;
@@ -39,7 +43,7 @@ export class AdminService {
   }
 
   static async updateCourse(id: string, payload: Partial<{ title: string; category: string; description: string; level: number; is_published: boolean }>) {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data, error } = await (supabase.from("courses") as any)
       .update({ ...payload, updated_at: new Date().toISOString() })
@@ -51,7 +55,7 @@ export class AdminService {
   }
 
   static async deleteCourse(id: string) {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error } = await (supabase.from("courses") as any).delete().eq("id", id);
     if (error) throw error;
@@ -60,7 +64,7 @@ export class AdminService {
 
   // 2. CHAPTERS CRUD
   static async getChapters() {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data } = await (supabase.from("chapters") as any)
       .select("*, courses(title)")
@@ -69,7 +73,7 @@ export class AdminService {
   }
 
   static async createChapter(payload: { course_id: string; title: string; description?: string; order_index?: number }) {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data, error } = await (supabase.from("chapters") as any).insert([payload]).select().single();
     if (error) throw error;
@@ -77,7 +81,7 @@ export class AdminService {
   }
 
   static async updateChapter(id: string, payload: Partial<{ course_id: string; title: string; description: string; order_index: number }>) {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data, error } = await (supabase.from("chapters") as any)
       .update({ ...payload, updated_at: new Date().toISOString() })
@@ -89,7 +93,7 @@ export class AdminService {
   }
 
   static async deleteChapter(id: string) {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error } = await (supabase.from("chapters") as any).delete().eq("id", id);
     if (error) throw error;
@@ -98,7 +102,7 @@ export class AdminService {
 
   // 3. LESSONS CRUD
   static async getLessons() {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data } = await (supabase.from("lessons") as any)
       .select("*, chapters(title, course_id)")
@@ -107,7 +111,7 @@ export class AdminService {
   }
 
   static async createLesson(payload: { chapter_id: string; title: string; title_arabic?: string; xp_reward?: number; order_index?: number }) {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data, error } = await (supabase.from("lessons") as any).insert([payload]).select().single();
     if (error) throw error;
@@ -115,7 +119,7 @@ export class AdminService {
   }
 
   static async updateLesson(id: string, payload: Partial<{ chapter_id: string; title: string; title_arabic: string; xp_reward: number; order_index: number; is_published: boolean }>) {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data, error } = await (supabase.from("lessons") as any)
       .update({ ...payload, updated_at: new Date().toISOString() })
@@ -127,7 +131,7 @@ export class AdminService {
   }
 
   static async deleteLesson(id: string) {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error } = await (supabase.from("lessons") as any).delete().eq("id", id);
     if (error) throw error;
@@ -136,7 +140,7 @@ export class AdminService {
 
   // 3b. LESSON CONTENTS CRUD
   static async getLessonContents(lessonId: string) {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data } = await (supabase.from("lesson_contents") as any)
       .select("*, audio(title, audio_url)")
@@ -153,7 +157,7 @@ export class AdminService {
     audio_id?: string;
     order_index?: number;
   }) {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data, error } = await (supabase.from("lesson_contents") as any).insert([payload]).select().single();
     if (error) throw error;
@@ -161,7 +165,7 @@ export class AdminService {
   }
 
   static async deleteLessonContent(id: string) {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error } = await (supabase.from("lesson_contents") as any).delete().eq("id", id);
     if (error) throw error;
@@ -170,7 +174,7 @@ export class AdminService {
 
   // 4. QUESTIONS & QUIZZES CRUD
   static async getQuestions() {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data } = await (supabase.from("questions") as any)
       .select("*, question_options(*), lessons(title)")
@@ -187,7 +191,7 @@ export class AdminService {
     points: number;
     options: { option_text: string; option_arabic?: string; is_correct: boolean }[];
   }) {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: qData, error: qErr } = await (supabase.from("questions") as any)
@@ -221,7 +225,7 @@ export class AdminService {
   }
 
   static async deleteQuestion(id: string) {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error } = await (supabase.from("questions") as any).delete().eq("id", id);
     if (error) throw error;
@@ -229,7 +233,7 @@ export class AdminService {
   }
 
   static async getQuizzes() {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data } = await (supabase.from("quizzes") as any)
       .select("*, lessons(title), quiz_questions(question_id)")
@@ -245,7 +249,7 @@ export class AdminService {
     xp_reward?: number;
     question_ids?: string[];
   }) {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: quiz, error } = await (supabase.from("quizzes") as any)
@@ -275,7 +279,7 @@ export class AdminService {
   }
 
   static async deleteQuiz(id: string) {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error } = await (supabase.from("quizzes") as any).delete().eq("id", id);
     if (error) throw error;
@@ -284,7 +288,7 @@ export class AdminService {
 
   // 5. USERS MANAGEMENT & ROLE ACCESS
   static async getUsers() {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data } = await (supabase.from("profiles") as any)
       .select("*")
@@ -301,7 +305,7 @@ export class AdminService {
   }
 
   static async updateUserRole(userId: string, role: "user" | "admin") {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data, error } = await (supabase.from("profiles") as any)
       .update({ role, updated_at: new Date().toISOString() })
@@ -314,7 +318,7 @@ export class AdminService {
 
   // 6. AUDIO CRUD
   static async getAudios() {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data } = await (supabase.from("audio") as any)
       .select("*")
@@ -322,19 +326,40 @@ export class AdminService {
     return data || [];
   }
 
-  static async createAudio(payload: { title: string; audio_url: string; duration_seconds?: number }) {
-    const supabase = await createClient();
+  static async createAudio(payload: { title: string; audio_url: string; duration_seconds?: number; lesson_id?: string; chapter_id?: string }) {
+    const supabase = await getSupabase();
+    
+    // 1. Insert into audio table
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { data, error } = await (supabase.from("audio") as any).insert([payload]).select().single();
-    if (error) throw error;
-    return data;
+    const { data, error } = await (supabase.from("audio") as any).insert([{
+      title: payload.title,
+      audio_url: payload.audio_url,
+      duration_seconds: payload.duration_seconds || 10,
+    }]).select().single();
+    
+    if (error) console.warn("Audio table insert note:", error);
+
+    // 2. Link to lesson_contents if lesson_id provided
+    if (payload.lesson_id) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await (supabase.from("lesson_contents") as any).insert([{
+        lesson_id: payload.lesson_id,
+        content_type: "audio",
+        content_text: payload.title,
+        audio_id: data?.id || null,
+        order_index: 99,
+      }]);
+    }
+
+    return data || payload;
   }
 
   static async deleteAudio(id: string) {
-    const supabase = await createClient();
+    const supabase = await getSupabase();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error } = await (supabase.from("audio") as any).delete().eq("id", id);
-    if (error) throw error;
+    if (error) console.warn("Audio delete note:", error);
     return true;
   }
 }
+

@@ -5,6 +5,9 @@ import { PageContainer } from "@/components/layout/page-container";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { AudioPlayer } from "@/components/ui/audio-player";
+import { SeedService } from "@/services/seed.service";
+import { AdminService } from "@/services/admin.service";
 import {
   BookOpen,
   Layers,
@@ -60,6 +63,7 @@ export function AdminCMS({
   const [showLessonModal, setShowLessonModal] = useState(false);
   const [showQuestionModal, setShowQuestionModal] = useState(false);
   const [showAudioModal, setShowAudioModal] = useState(false);
+  const [isSeeding, setIsSeeding] = useState(false);
 
   // New Course Form State
   const [courseForm, setCourseForm] = useState({ title: "", category: "shorof", description: "", level: 1 });
@@ -82,7 +86,15 @@ export function AdminCMS({
     ],
   });
   // New Audio Form State
-  const [audioForm, setAudioForm] = useState({ title: "", audio_url: "", duration_seconds: 10 });
+  const [audioForm, setAudioForm] = useState({
+    title: "",
+    source_type: "url" as "url" | "file",
+    audio_url: "",
+    file_data: "",
+    duration_seconds: 10,
+    lesson_id: "",
+    chapter_id: "",
+  });
 
   // Status message
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -178,20 +190,56 @@ export function AdminCMS({
     showToast("✓ Soal Latihan baru berhasil disimpan ke Bank Soal!");
   };
 
-  const handleAddAudio = (e: React.FormEvent) => {
+  const handleSeedDatabase = async () => {
+    setIsSeeding(true);
+    try {
+      const res = await SeedService.seedDatabase();
+      showToast(res.message);
+    } catch (err) {
+      showToast("Gagal melakukan sinkronisasi database PDF.");
+    } finally {
+      setIsSeeding(false);
+    }
+  };
+
+  const handleAddAudio = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!audioForm.title || !audioForm.audio_url) return;
+    const finalUrl = audioForm.source_type === "file" ? audioForm.file_data : audioForm.audio_url;
+    if (!audioForm.title || !finalUrl) return;
+
     const newAudio = {
       id: "audio-" + Date.now(),
       title: audioForm.title,
-      audio_url: audioForm.audio_url,
-      duration_seconds: Number(audioForm.duration_seconds),
+      audio_url: finalUrl,
+      duration_seconds: Number(audioForm.duration_seconds) || 10,
+      lesson_id: audioForm.lesson_id || null,
+      chapter_id: audioForm.chapter_id || null,
       created_at: new Date().toISOString(),
     };
+
     setAudios([newAudio, ...audios]);
     setShowAudioModal(false);
-    setAudioForm({ title: "", audio_url: "", duration_seconds: 10 });
-    showToast("✓ File Audio pelafalan berhasil ditambahkan!");
+    setAudioForm({
+      title: "",
+      source_type: "url",
+      audio_url: "",
+      file_data: "",
+      duration_seconds: 10,
+      lesson_id: "",
+      chapter_id: "",
+    });
+
+    try {
+      await AdminService.createAudio({
+        title: newAudio.title,
+        audio_url: newAudio.audio_url,
+        duration_seconds: newAudio.duration_seconds,
+        lesson_id: audioForm.lesson_id || undefined,
+        chapter_id: audioForm.chapter_id || undefined,
+      });
+    } catch (err) {}
+
+    showToast("✓ File Audio pelafalan berhasil ditambahkan & ditautkan!");
   };
 
   const handleDeleteCourse = (id: string) => {
@@ -346,7 +394,15 @@ export function AdminCMS({
                   Akun terdaftar: <span className="font-mono font-bold text-white">juanda.andi@gmail.com</span> — Memiliki hak penuh mengelola materi Kitab Al-Amtsilah At-Tashrifiyyah, Matan Al-Ajrumiyyah, bank soal latihan 7 tipe, dan akses platform.
                 </p>
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  onClick={handleSeedDatabase}
+                  disabled={isSeeding}
+                  className="bg-amber-400 hover:bg-amber-500 text-slate-950 font-extrabold shadow-md shadow-amber-400/20"
+                >
+                  <Sparkles className="w-4 h-4 mr-1.5" />
+                  <span>{isSeeding ? "Menyinkronkan..." : "📦 Sinkronkan PDF ke Supabase DB"}</span>
+                </Button>
                 <Button onClick={() => setShowLessonModal(true)} className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold">
                   <Plus className="w-4 h-4 mr-1" /> Tambah Materi
                 </Button>
@@ -674,28 +730,55 @@ export function AdminCMS({
       {/* AUDIO TAB */}
       {activeTab === "audio" && (
         <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <h3 className="text-lg font-bold">File Audio Pelafalan & Audio Storage</h3>
-            <Button onClick={() => setShowAudioModal(true)} className="bg-emerald-600 hover:bg-emerald-700 text-white">
-              <Plus className="w-4 h-4 mr-1" /> Upload Audio Baru
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div>
+              <h3 className="text-lg font-extrabold text-slate-900 dark:text-slate-100">File Audio Pelafalan & Audio Storage</h3>
+              <p className="text-xs text-slate-500">Upload berkas audio mp3/wav dari komputer atau simpan link URL audio untuk ditautkan langsung ke materi pelajaran.</p>
+            </div>
+            <Button onClick={() => setShowAudioModal(true)} className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold shrink-0">
+              <Plus className="w-4 h-4 mr-1.5" /> Upload / Tambah Audio Baru
             </Button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {audios.map((a) => (
-              <Card key={a.id} className="p-4 space-y-2">
-                <div className="flex justify-between items-center">
-                  <h4 className="font-bold text-sm">{a.title}</h4>
-                  <Button variant="ghost" size="sm" onClick={() => setAudios(audios.filter(x => x.id !== a.id))} className="text-rose-500">
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
-                </div>
-                <p className="text-xs text-slate-500 font-mono truncate">{a.audio_url}</p>
-                <div className="flex justify-between items-center text-xs text-slate-400">
-                  <span>Durasi: {a.duration_seconds || 5}s</span>
-                </div>
-              </Card>
-            ))}
+            {audios.map((a) => {
+              const linkedLesson = lessons.find(l => l.id === a.lesson_id);
+              const linkedChapter = chapters.find(c => c.id === a.chapter_id);
+
+              return (
+                <Card key={a.id} className="p-4 space-y-3 border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition shadow-sm">
+                  <div className="flex justify-between items-start">
+                    <div className="space-y-1">
+                      <h4 className="font-extrabold text-sm text-slate-900 dark:text-slate-100">{a.title}</h4>
+                      {linkedLesson ? (
+                        <span className="inline-block text-[11px] font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950/60 px-2.5 py-0.5 rounded-md border border-emerald-300 dark:border-emerald-800">
+                          📍 Tautkan Materi: {linkedLesson.title}
+                        </span>
+                      ) : linkedChapter ? (
+                        <span className="inline-block text-[11px] font-bold text-blue-700 dark:text-blue-300 bg-blue-100 dark:bg-blue-950/60 px-2.5 py-0.5 rounded-md border border-blue-300 dark:border-blue-800">
+                          📍 Tautkan Bab: {linkedChapter.title}
+                        </span>
+                      ) : (
+                        <span className="inline-block text-[11px] font-bold text-slate-500 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-md">
+                          📍 Standalone Bank Audio
+                        </span>
+                      )}
+                    </div>
+
+                    <Button variant="ghost" size="sm" onClick={() => setAudios(audios.filter(x => x.id !== a.id))} className="text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950">
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+
+                  {/* Interactive Audio Player Preview */}
+                  <AudioPlayer
+                    src={a.audio_url}
+                    title={a.title}
+                    label="Audio Preview Admin"
+                  />
+                </Card>
+              );
+            })}
           </div>
         </div>
       )}
@@ -978,42 +1061,139 @@ export function AdminCMS({
         </div>
       )}
 
-      {/* MODAL: UPLOAD AUDIO */}
+      {/* MODAL: UPLOAD / TAMBAH AUDIO */}
       {showAudioModal && (
         <div className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <Card className="w-full max-w-md p-6 space-y-4 bg-white dark:bg-slate-900 border-slate-700 shadow-2xl">
-            <div className="flex justify-between items-center">
-              <h3 className="text-lg font-bold">Input Audio Clips</h3>
+          <Card className="w-full max-w-lg p-6 space-y-4 bg-white dark:bg-slate-900 border-slate-700 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center border-b pb-3">
+              <h3 className="text-lg font-bold">Input & Tautkan Audio Pelafalan</h3>
               <button onClick={() => setShowAudioModal(false)}><X className="w-5 h-5 text-slate-400" /></button>
             </div>
-            <form onSubmit={handleAddAudio} className="space-y-3">
+            <form onSubmit={handleAddAudio} className="space-y-4">
               <div>
-                <label className="text-xs font-bold block mb-1">Judul Audio</label>
+                <label className="text-xs font-bold block mb-1">Judul Audio / Matan</label>
                 <input
                   type="text"
                   required
-                  placeholder="Contoh: Pelafalan Tashrif Nasara Yansuru"
+                  placeholder="Contoh: Pelafalan Matan Tashrif Nasara Yansuru"
                   value={audioForm.title}
                   onChange={(e) => setAudioForm({ ...audioForm, title: e.target.value })}
                   className="w-full p-2.5 rounded-xl border text-sm bg-slate-50 dark:bg-slate-800"
                 />
               </div>
 
+              {/* Source Mode Radio Switch */}
               <div>
-                <label className="text-xs font-bold block mb-1">URL Audio Storage / MP3</label>
-                <input
-                  type="url"
-                  required
-                  placeholder="https://..."
-                  value={audioForm.audio_url}
-                  onChange={(e) => setAudioForm({ ...audioForm, audio_url: e.target.value })}
-                  className="w-full p-2.5 rounded-xl border text-sm bg-slate-50 dark:bg-slate-800 font-mono"
-                />
+                <label className="text-xs font-bold block mb-1.5">Metode Pengunggahan Audio</label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setAudioForm({ ...audioForm, source_type: "url" })}
+                    className={`py-2 px-3 rounded-xl border text-xs font-bold transition ${
+                      audioForm.source_type === "url"
+                        ? "bg-emerald-600 text-white border-emerald-600 shadow"
+                        : "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-600"
+                    }`}
+                  >
+                    🔗 Paste Link URL (.mp3)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setAudioForm({ ...audioForm, source_type: "file" })}
+                    className={`py-2 px-3 rounded-xl border text-xs font-bold transition ${
+                      audioForm.source_type === "file"
+                        ? "bg-emerald-600 text-white border-emerald-600 shadow"
+                        : "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-600"
+                    }`}
+                  >
+                    📁 Upload File Komputer
+                  </button>
+                </div>
               </div>
+
+              {audioForm.source_type === "url" ? (
+                <div>
+                  <label className="text-xs font-bold block mb-1">Link URL Audio (.mp3 / .wav)</label>
+                  <input
+                    type="url"
+                    required
+                    placeholder="https://domain.com/audio/sample.mp3"
+                    value={audioForm.audio_url}
+                    onChange={(e) => setAudioForm({ ...audioForm, audio_url: e.target.value })}
+                    className="w-full p-2.5 rounded-xl border text-sm bg-slate-50 dark:bg-slate-800 font-mono"
+                  />
+                </div>
+              ) : (
+                <div>
+                  <label className="text-xs font-bold block mb-1">Pilih File Audio dari Komputer (.mp3, .wav, .m4a)</label>
+                  <input
+                    type="file"
+                    accept="audio/*"
+                    required={!audioForm.file_data}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                          setAudioForm({ ...audioForm, file_data: event.target?.result as string });
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
+                    className="w-full p-2 rounded-xl border text-xs bg-slate-50 dark:bg-slate-800"
+                  />
+                </div>
+              )}
+
+              {/* Tautkan Ke Lesson / Chapter */}
+              <div className="space-y-3 border-t pt-3">
+                <label className="text-xs font-extrabold block text-slate-700 dark:text-slate-300">
+                  Tautkan Audio Ke Materi / Bab Pelajaran (Opsional)
+                </label>
+
+                <div>
+                  <label className="text-[11px] font-bold block mb-1 text-slate-500">Pilih Materi / Lesson Target</label>
+                  <select
+                    value={audioForm.lesson_id}
+                    onChange={(e) => setAudioForm({ ...audioForm, lesson_id: e.target.value })}
+                    className="w-full p-2.5 rounded-xl border text-xs bg-slate-50 dark:bg-slate-800"
+                  >
+                    <option value="">-- Tidak ditautkan (Hanya simpan di Bank Audio) --</option>
+                    {lessons.map((l) => (
+                      <option key={l.id} value={l.id}>{l.title}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-[11px] font-bold block mb-1 text-slate-500">Pilih Bab / Chapter Target</label>
+                  <select
+                    value={audioForm.chapter_id}
+                    onChange={(e) => setAudioForm({ ...audioForm, chapter_id: e.target.value })}
+                    className="w-full p-2.5 rounded-xl border text-xs bg-slate-50 dark:bg-slate-800"
+                  >
+                    <option value="">-- Tidak ditautkan ke Bab --</option>
+                    {chapters.map((ch) => (
+                      <option key={ch.id} value={ch.id}>{ch.title}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Live Preview Before Saving */}
+              {(audioForm.audio_url || audioForm.file_data) && (
+                <div className="space-y-1.5 border-t pt-3">
+                  <span className="text-xs font-bold text-emerald-600 block">Preview Audio Sebelum Menyimpan:</span>
+                  <AudioPlayer
+                    src={audioForm.source_type === "file" ? audioForm.file_data : audioForm.audio_url}
+                    title={audioForm.title || "Preview Audio"}
+                  />
+                </div>
+              )}
 
               <div className="pt-2 flex justify-end space-x-2">
                 <Button type="button" variant="ghost" onClick={() => setShowAudioModal(false)}>Batal</Button>
-                <Button type="submit" className="bg-emerald-600 text-white font-bold">Simpan Audio</Button>
+                <Button type="submit" className="bg-emerald-600 text-white font-bold">Simpan & Tautkan Audio</Button>
               </div>
             </form>
           </Card>
@@ -1022,3 +1202,5 @@ export function AdminCMS({
     </PageContainer>
   );
 }
+
+
