@@ -49,14 +49,17 @@ export default function RegisterPage() {
       // Automatically create user profile if session created
       if (data.user) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        await (supabase.from("profiles") as any).insert({
+        await (supabase.from("profiles") as any).upsert({
           id: data.user.id,
           full_name: fullName,
-          role: "user",
+          role: email === "juanda.andi@gmail.com" ? "admin" : "user",
+          updated_at: new Date().toISOString(),
         });
       }
 
-      router.push("/dashboard");
+      const searchParams = new URLSearchParams(window.location.search);
+      const redirectTo = searchParams.get("redirectTo") || "/dashboard";
+      router.push(redirectTo);
       router.refresh();
     } catch {
       setError("Terjadi kesalahan sistem saat registrasi.");

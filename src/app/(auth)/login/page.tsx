@@ -41,7 +41,9 @@ export default function LoginPage() {
         return;
       }
 
-      router.push("/dashboard");
+      const searchParams = new URLSearchParams(window.location.search);
+      const redirectTo = searchParams.get("redirectTo") || "/dashboard";
+      router.push(redirectTo);
       router.refresh();
     } catch {
       setError("Terjadi kesalahan sistem saat proses masuk.");

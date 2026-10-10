@@ -31,17 +31,32 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const isAdminRoute = request.nextUrl.pathname.startsWith('/admin');
+  const pathname = request.nextUrl.pathname;
 
-  // 1. Admin Route requires user login + admin role
-  if (isAdminRoute) {
-    if (!user) {
-      const url = request.nextUrl.clone();
-      url.pathname = '/login';
-      url.searchParams.set('redirectTo', request.nextUrl.pathname);
-      return NextResponse.redirect(url);
-    }
+  // 1. Protected routes that require authentication
+  const protectedPrefixes = ['/dashboard', '/profile', '/practice', '/review', '/games', '/admin'];
+  const isProtectedRoute = protectedPrefixes.some((prefix) => pathname.startsWith(prefix));
 
+  if (isProtectedRoute && !user) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/login';
+    url.searchParams.set('redirectTo', pathname);
+    return NextResponse.redirect(url);
+  }
+
+  // 2. Auth routes (redirect logged-in users to /dashboard)
+  const isAuthRoute = pathname === '/login' || pathname === '/register';
+  if (isAuthRoute && user) {
+    const redirectTo = request.nextUrl.searchParams.get('redirectTo') || '/dashboard';
+    const url = request.nextUrl.clone();
+    url.pathname = redirectTo;
+    url.searchParams.delete('redirectTo');
+    return NextResponse.redirect(url);
+  }
+
+  // 3. Admin routes require admin role or superadmin email
+  const isAdminRoute = pathname.startsWith('/admin');
+  if (isAdminRoute && user) {
     if (user.email === 'juanda.andi@gmail.com') {
       return supabaseResponse;
     }

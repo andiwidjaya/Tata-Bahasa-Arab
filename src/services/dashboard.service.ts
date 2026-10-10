@@ -35,12 +35,15 @@ export async function fetchDashboardData(): Promise<DashboardData> {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Fallback profile if no user session
   let fullName = 'Pembelajar Bahasa Arab';
   let role = 'user';
   let userId = user?.id;
 
   if (user) {
+    if (user.email === 'juanda.andi@gmail.com') {
+      role = 'admin';
+    }
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: profile } = await (supabase
       .from('profiles') as any)
@@ -50,7 +53,7 @@ export async function fetchDashboardData(): Promise<DashboardData> {
 
     if (profile) {
       fullName = profile.full_name || fullName;
-      role = profile.role || role;
+      if (profile.role) role = profile.role;
     }
   }
 
@@ -62,8 +65,15 @@ export async function fetchDashboardData(): Promise<DashboardData> {
       streakDays: 0,
       isTodayStreakCompleted: false,
       xpToday: 0,
-      nahwuProgress: { completed: 0, total: 12 },
-      shorofProgress: { completed: 0, total: 10 },
+      activeLesson: {
+        id: 'shorof-lesson-1',
+        title: '1. Bab 1: Wazan فَعَلَ - يَفْعُلُ (نَصَرَ - يَنْصُرُ)',
+        titleArabic: 'فَعَلَ - يَفْعُلُ',
+        chapterTitle: 'Bab 1: Tashrif Istilahi Tsulatsi Mujarrad',
+        category: 'shorof',
+      },
+      nahwuProgress: { completed: 0, total: 34 },
+      shorofProgress: { completed: 0, total: 23 },
       pendingMistakesCount: 0,
     };
   }
@@ -104,10 +114,13 @@ export async function fetchDashboardData(): Promise<DashboardData> {
   const { data: progressRows } = await (supabase
     .from('user_progress') as any)
     .select('lesson_id, status')
-    .eq('user_id', userId);
+    .eq('user_id', userId)
+    .eq('status', 'completed');
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const completedCount = progressRows?.filter((p: any) => p.status === 'completed').length || 0;
+  const completedLessonIds: string[] = (progressRows || []).map((p: { lesson_id: string }) => p.lesson_id);
+
+  const completedNahwu = completedLessonIds.filter((id) => id.startsWith('nahwu-lesson-')).length;
+  const completedShorof = completedLessonIds.filter((id) => id.startsWith('shorof-lesson-')).length;
 
   // 4. Fetch Mistakes count
   const { count: mistakesCount } = await supabase
@@ -123,8 +136,15 @@ export async function fetchDashboardData(): Promise<DashboardData> {
     streakDays,
     isTodayStreakCompleted,
     xpToday,
-    nahwuProgress: { completed: Math.min(completedCount, 6), total: 12 },
-    shorofProgress: { completed: 0, total: 10 },
+    activeLesson: {
+      id: 'shorof-lesson-1',
+      title: '1. Bab 1: Wazan فَعَلَ - يَفْعُلُ (نَصَرَ - يَنْصُرُ)',
+      titleArabic: 'فَعَلَ - يَفْعُلُ',
+      chapterTitle: 'Bab 1: Tashrif Istilahi Tsulatsi Mujarrad',
+      category: 'shorof',
+    },
+    nahwuProgress: { completed: completedNahwu, total: 34 },
+    shorofProgress: { completed: completedShorof, total: 23 },
     pendingMistakesCount: mistakesCount || 0,
   };
 }
