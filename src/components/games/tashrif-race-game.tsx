@@ -94,6 +94,12 @@ export function TashrifRaceGame({ questions }: TashrifRaceProps) {
             amount: xpEarned,
             source: "game",
           });
+
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(
+              new CustomEvent("xp_updated", { detail: { amount: xpEarned } })
+            );
+          }
         }
       }
     } catch (err) {

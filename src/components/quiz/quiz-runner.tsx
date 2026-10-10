@@ -99,6 +99,12 @@ export function QuizRunner({ quiz, onFinish }: QuizRunnerProps) {
             source: "quiz_passed",
             reference_id: quiz.id,
           });
+
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(
+              new CustomEvent("xp_updated", { detail: { amount: quiz.xpReward } })
+            );
+          }
         }
 
         // Track mistakes

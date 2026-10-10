@@ -2,9 +2,10 @@
 
 import * as React from "react";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, Loader2, Award, LogIn, UserPlus } from "lucide-react";
+import { CheckCircle2, Loader2, Award, LogIn, UserPlus, Sparkles } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import { XPEarnedAnimation } from "@/components/ui/xp-earned-animation";
 import Link from "next/link";
 
 interface LessonCompletionProps {
@@ -17,6 +18,7 @@ export function LessonCompletion({ lessonId, isCompletedInitial, xpReward }: Les
   const [isCompleted, setIsCompleted] = React.useState(isCompletedInitial);
   const [loading, setLoading] = React.useState(false);
   const [showGuestPrompt, setShowGuestPrompt] = React.useState(false);
+  const [showXpAnim, setShowXpAnim] = React.useState(false);
   const [user, setUser] = React.useState<any>(null);
   const router = useRouter();
 
@@ -43,6 +45,15 @@ export function LessonCompletion({ lessonId, isCompletedInitial, xpReward }: Les
       setShowGuestPrompt(true);
       return;
     }
+
+    // Trigger Dynamic XP Animation & Broadcast Global Event Instantly (0ms latency UI update)
+    setShowXpAnim(true);
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("xp_updated", { detail: { amount: xpReward } })
+      );
+    }
+    setIsCompleted(true);
 
     setLoading(true);
     try {
@@ -83,19 +94,21 @@ export function LessonCompletion({ lessonId, isCompletedInitial, xpReward }: Les
         completed: true,
       });
 
-      setIsCompleted(true);
       router.refresh();
     } catch (err) {
       console.error("Failed to complete lesson", err);
-      setIsCompleted(true);
-      router.refresh();
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="p-6 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/60 text-center space-y-3 my-6 shadow-sm">
+    <div className="p-6 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/60 text-center space-y-3 my-6 shadow-sm relative">
+      {/* Center XP Animation Modal */}
+      {showXpAnim && (
+        <XPEarnedAnimation amount={xpReward} onAnimationEnd={() => setShowXpAnim(false)} />
+      )}
+
       {/* Guest Login/Register Prompt Modal */}
       {showGuestPrompt && (
         <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
@@ -137,13 +150,28 @@ export function LessonCompletion({ lessonId, isCompletedInitial, xpReward }: Les
       )}
 
       {isCompleted ? (
-        <div className="flex flex-col items-center space-y-2 text-emerald-700 dark:text-emerald-300">
+        <div className="flex flex-col items-center space-y-3 text-emerald-700 dark:text-emerald-300">
           <CheckCircle2 className="w-12 h-12 text-emerald-600 animate-bounce" />
           <h4 className="font-extrabold text-xl">Alhamdulillah! Pelajaran Selesai 🎉</h4>
-          <div className="inline-flex items-center space-x-1.5 bg-emerald-100 dark:bg-emerald-900/60 px-3 py-1 rounded-full text-emerald-800 dark:text-emerald-200 font-bold text-xs">
-            <Award className="w-4 h-4 text-emerald-600" />
-            <span>Berhasil Memperoleh +{xpReward} XP</span>
+          <div className="inline-flex items-center space-x-1.5 bg-emerald-100 dark:bg-emerald-900/60 px-4 py-1.5 rounded-full text-emerald-800 dark:text-emerald-200 font-extrabold text-sm shadow-sm">
+            <Sparkles className="w-4 h-4 text-amber-500 fill-amber-500" />
+            <span>Berhasil Memperoleh +{xpReward} XP!</span>
           </div>
+
+          <button
+            onClick={() => {
+              setShowXpAnim(true);
+              if (typeof window !== "undefined") {
+                window.dispatchEvent(
+                  new CustomEvent("xp_updated", { detail: { amount: xpReward } })
+                );
+              }
+            }}
+            className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline pt-1 font-bold flex items-center space-x-1"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+            <span>Tampilkan Perayaan XP Ulang</span>
+          </button>
         </div>
       ) : (
         <div className="space-y-3">

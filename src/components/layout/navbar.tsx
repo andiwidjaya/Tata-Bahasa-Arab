@@ -15,6 +15,9 @@ export function Navbar() {
   const [isAdmin, setIsAdmin] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(true);
 
+  const [isPulsing, setIsPulsing] = React.useState<boolean>(false);
+  const [addedXpText, setAddedXpText] = React.useState<number | null>(null);
+
   React.useEffect(() => {
     async function loadUserData() {
       try {
@@ -64,6 +67,28 @@ export function Navbar() {
     }
 
     loadUserData();
+
+    const handleXPUpdated = (event: any) => {
+      const addedXp = event.detail?.amount || 0;
+      setAddedXpText(addedXp);
+      setIsPulsing(true);
+      setTotalXp((prev) => {
+        const next = prev + addedXp;
+        setLevel(Math.floor(next / 250) + 1);
+        return next;
+      });
+      setStreakDays((prev) => (prev === 0 ? 1 : prev));
+
+      setTimeout(() => {
+        setIsPulsing(false);
+        setAddedXpText(null);
+      }, 2500);
+    };
+
+    window.addEventListener("xp_updated", handleXPUpdated);
+    return () => {
+      window.removeEventListener("xp_updated", handleXPUpdated);
+    };
   }, []);
 
   const handleLogout = async () => {
@@ -110,9 +135,20 @@ export function Navbar() {
               </div>
 
               {/* Dynamic XP Badge */}
-              <div className="flex items-center space-x-1.5 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/50 px-3 py-1 rounded-full text-emerald-700 dark:text-emerald-400 text-xs font-bold">
-                <Award className="w-4 h-4 text-emerald-600" />
+              <div className={`relative flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all duration-500 ${
+                isPulsing
+                  ? "bg-amber-400 text-slate-950 ring-4 ring-amber-400/40 scale-110 shadow-lg shadow-amber-400/30"
+                  : "bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/50 text-emerald-700 dark:text-emerald-400"
+              }`}>
+                <Award className={`w-4 h-4 ${isPulsing ? "text-slate-950 animate-bounce" : "text-emerald-600"}`} />
                 <span>{totalXp.toLocaleString()} XP (Lvl {level})</span>
+
+                {/* Floating +XP Pill */}
+                {addedXpText && (
+                  <span className="absolute -bottom-7 right-2 bg-emerald-600 text-white font-extrabold text-[11px] px-2 py-0.5 rounded-full shadow-lg border border-emerald-300 animate-bounce">
+                    +{addedXpText} XP!
+                  </span>
+                )}
               </div>
 
               {/* Admin Panel Access Link if Admin */}
