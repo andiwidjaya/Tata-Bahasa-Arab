@@ -140,16 +140,16 @@ const FALLBACK_COURSES: Record<string, { course: CourseDetail; chapters: Chapter
   shorof: {
     course: {
       id: '22222222-2222-4222-8222-222222222222',
-      title: 'Kurikulum Ilmu Shorof (Tashrif Al-Kalimah)',
+      title: 'Kurikulum Kitab Al-Amtsilah At-Tashrifiyyah',
       category: 'shorof',
-      description: 'Kuasai pola perubahan bentuk kata (Tashrif Lughawi & Istilahi) dari kata dasar hingga turunan.',
+      description: 'Materi lengkap Kitab Al-Amtsilah At-Tashrifiyyah karya Sheikh Muhammad Ma\'shum bin Ali Jombang (1351 H) mencakup 8 Bab Tashrif Istilahi dan Tashrif Lughawi.',
       level: 1,
     },
     chapters: [
       {
         id: 'chap-shorof-1',
-        title: 'Bab 1: Tashrif Tsulatsi Mujarrad (6 Bab Wazan Utama)',
-        description: 'Mempelajari 6 pola kata kerja 3 huruf tanpa huruf tambahan.',
+        title: 'Bab 1: Tashrif Istilahi Tsulatsi Mujarrad (6 Bab Utama)',
+        description: 'Pola perubahan 6 bab utama kata kerja 3 huruf tanpa huruf tambahan.',
         orderIndex: 1,
         lessons: [
           { id: 'shorof-lesson-1', title: '1. Bab 1: Wazan فَعَلَ - يَفْعُلُ (نَصَرَ - يَنْصُرُ)', titleArabic: 'فَعَلَ - يَفْعُلُ', orderIndex: 1 },
@@ -162,12 +162,75 @@ const FALLBACK_COURSES: Record<string, { course: CourseDetail; chapters: Chapter
       },
       {
         id: 'chap-shorof-2',
-        title: 'Bab 2: Tashrif Tsulatsi Mazid (Kata Kerja Tambahan)',
-        description: 'Mempelajari bentukan kata kerja dengan tambahan 1, 2, dan 3 huruf.',
+        title: 'Bab 2: Tashrif Istilahi Rubai Mujarrad & Mulhaq (8 Bab)',
+        description: 'Kata kerja 4 huruf asli (Dahraja) dan 7 pola Mulhaq Rubai (Jalbaba, Hauqala, Baytara, dll).',
         orderIndex: 2,
         lessons: [
-          { id: 'shorof-lesson-7', title: '7. Tsulatsi Mazid 1 Huruf (أَفْعَلَ, فَعَّلَ, فَاعَلَ)', titleArabic: 'الثلاثي المزيد بحرف', orderIndex: 1 },
-          { id: 'shorof-lesson-8', title: '8. Tsulatsi Mazid 2 & 3 Huruf (إِسْتَفْعَلَ dll)', titleArabic: 'الثلاثي المزيد بحرفين وثلاثة', orderIndex: 2 },
+          { id: 'shorof-lesson-7', title: '7. Rubai Mujarrad Wazan فَعْلَلَ - يُفَعْلِلُ (دَحْرَجَ - يُدَحْرِجُ)', titleArabic: 'فَعْلَلَ - يُفَعْلِلُ', orderIndex: 1 },
+          { id: 'shorof-lesson-8', title: '8. Mulhaq Rubai 7 Wazan (حَمْدَلَ, حَوْقَلَ, بَسْمَلَ dll)', titleArabic: 'مُلْحَقُ الرُّبَاعِيِّ', orderIndex: 2 },
+        ],
+      },
+      {
+        id: 'chap-shorof-3',
+        title: 'Bab 3: Tashrif Istilahi Tsulatsi Mazid (12 Bab)',
+        description: 'Tashrif kata kerja 3 huruf dengan tambahan 1, 2, dan 3 huruf.',
+        orderIndex: 3,
+        lessons: [
+          { id: 'shorof-lesson-9', title: '9. Tsulatsi Mazid 1 Huruf (فَعَّلَ, فَاعَلَ, أَفْعَلَ)', titleArabic: 'الثلاثي المزيد بحرف', orderIndex: 1 },
+          { id: 'shorof-lesson-10', title: '10. Tsulatsi Mazid 2 Huruf (تَفَاعَلَ, تَفَعَّلَ, إِفْتَعَلَ, إِنْفَعَلَ, إِفْعَلَّ)', titleArabic: 'الثلاثي المزيد بحرفين', orderIndex: 2 },
+          { id: 'shorof-lesson-11', title: '11. Tsulatsi Mazid 3 Huruf (إِسْتَفْعَلَ, إِفْعَوْعَلَ, إِفْعَالَّ, إِفْعَوَّلَ)', titleArabic: 'الثلاثي المزيد بثلاثة', orderIndex: 3 },
+        ],
+      },
+      {
+        id: 'chap-shorof-4',
+        title: 'Bab 4: Mulhaq Rubai Mazid (5 Bab)',
+        description: 'Tashrif wazan Tadahraja, Tasalqa, Ihranjama, Islanqa, Iqsha\'arra.',
+        orderIndex: 4,
+        lessons: [
+          { id: 'shorof-lesson-12', title: '12. Mulhaq Rubai Mazid (تَفَعْلَلَ, تَفَعْلَى, إِفْعَنْلَلَ, إِفْعَنْلَى, إِفْعَلَلَّ)', titleArabic: 'ملحق الرباعي المزيد', orderIndex: 1 },
+        ],
+      },
+      {
+        id: 'chap-shorof-5',
+        title: 'Bab 5: Tashrif Lughawi Fi\'il Madhi & Mudhari (المعلوم والمجهول)',
+        description: 'Tashrif lughawi 14 kata ganti (Dhamir) Aktif (Ma\'lum) dan Pasif (Majhul).',
+        orderIndex: 5,
+        lessons: [
+          { id: 'shorof-lesson-13', title: '13. Tashrif Lughawi Fi\'il Madhi Ma\'lum (14 Dhamir)', titleArabic: 'الفعل الماضي المعلوم', orderIndex: 1 },
+          { id: 'shorof-lesson-14', title: '14. Tashrif Lughawi Fi\'il Madhi Majhul Pasif (14 Dhamir)', titleArabic: 'الفعل الماضي المجهول', orderIndex: 2 },
+          { id: 'shorof-lesson-15', title: '15. Tashrif Lughawi Fi\'il Mudhari Ma\'lum (14 Dhamir)', titleArabic: 'الفعل المضارع المعلوم', orderIndex: 3 },
+          { id: 'shorof-lesson-16', title: '16. Tashrif Lughawi Fi\'il Mudhari Majhul (14 Dhamir)', titleArabic: 'الفعل المضارع المجهول', orderIndex: 4 },
+        ],
+      },
+      {
+        id: 'chap-shorof-6',
+        title: 'Bab 6: Tashrif Lughawi Fi\'il Amar, Nahyi & Nun Taukid',
+        description: 'Tashrif kata kerja perintah (Amar), larangan (Nahyi), dan penegas nun taukid.',
+        orderIndex: 6,
+        lessons: [
+          { id: 'shorof-lesson-17', title: '17. Fi\'il Mudhari Nun Taukid Tsaqilah & Khafifah', titleArabic: 'نون التوكيد الثقيلة والخفيفة', orderIndex: 1 },
+          { id: 'shorof-lesson-18', title: '18. Fi\'il Amar Perintah Ma\'lum & Majhul', titleArabic: 'فعل الأمر', orderIndex: 2 },
+          { id: 'shorof-lesson-19', title: '19. Fi\'il Nahyi Larangan', titleArabic: 'فعل النهي', orderIndex: 3 },
+        ],
+      },
+      {
+        id: 'chap-shorof-7',
+        title: 'Bab 7: Tashrif Lughawi Isim Fa\'il, Maf\'ul, Sifat & Zaman/Makan/Alat',
+        description: 'Tashrif lughawi kata benda turunan (Mufrad, Muthanna, Jama\').',
+        orderIndex: 7,
+        lessons: [
+          { id: 'shorof-lesson-20', title: '20. Tashrif Lughawi Isim Fa\'il & Isim Maf\'ul', titleArabic: 'اسم الفاعل واسم المفعول', orderIndex: 1 },
+          { id: 'shorof-lesson-21', title: '21. Tashrif Lughawi Sifat Musyabbahah bi Ismi Fa\'il', titleArabic: 'الصفة المشبهة', orderIndex: 2 },
+          { id: 'shorof-lesson-22', title: '22. Tashrif Lughawi Asma\' Az-Zaman, Al-Makan & Al-Alah', titleArabic: 'أسماء الزمان والمكان والآلة', orderIndex: 3 },
+        ],
+      },
+      {
+        id: 'chap-shorof-8',
+        title: 'Bab 8: Tadziyil & Penutup Kitab Al-Amtsilah At-Tashrifiyyah',
+        description: 'Biografi penyusun Sheikh Muhammad Ma\'shum bin Ali Jombang 1351 H dan Keutamaan Kitab.',
+        orderIndex: 8,
+        lessons: [
+          { id: 'shorof-lesson-23', title: '23. Tadziyil & Biografi Sheikh Muhammad Ma\'shum bin Ali Jombang', titleArabic: 'تَذْيِيْلٌ وَخَاتِمَةٌ', orderIndex: 1 },
         ],
       },
     ],
@@ -425,51 +488,149 @@ const FALLBACK_LESSONS: Record<string, { lesson: any; contents: any[] }> = {
     ],
   },
   'shorof-lesson-1': {
-    lesson: { id: 'shorof-lesson-1', title: '1. Bab 1: Wazan فَعَلَ - يَفْعُلُ (نَصَرَ - يَنْصُرُ)', titleArabic: 'فَعَلَ - يَفْعُلُ', xpReward: 30, chapterTitle: 'Bab 1: Tashrif Tsulatsi Mujarrad', category: 'shorof' },
+    lesson: { id: 'shorof-lesson-1', title: '1. Bab 1: Wazan فَعَلَ - يَفْعُلُ (نَصَرَ - يَنْصُرُ)', titleArabic: 'فَعَلَ - يَفْعُلُ', xpReward: 30, chapterTitle: 'Bab 1: Tashrif Istilahi Tsulatsi Mujarrad', category: 'shorof' },
     contents: [
-      { id: 'c1', type: 'arabic_text', arabic: 'نَصَرَ - يَنْصُرُ - نَصْرًا - فَهُوَ نَاصِرٌ - وَذَاكَ مَنْصُورٌ - اُنْصُرْ - لَا تَنْصُرْ', text: 'Wazan Bab Pertama Shorof: Nasara - Yansuru - Nasran - Naasirun - Mansoorun - Unsur - Laa Tansur.' },
+      { id: 'c1', type: 'text', text: 'Syekh Muhammad Ma\'shum bin Ali Jombang dalam Al-Amtsilah At-Tashrifiyyah memulainya dengan Bab 1 Tsulatsi Mujarrad:' },
+      { id: 'c2', type: 'arabic_text', arabic: 'نَصَرَ - يَنْصُرُ - نَصْرًا وَمَنْصَرًا - فَهُوَ نَاصِرٌ - وَذَاكَ مَنْصُورٌ - أُنْصُرْ - لَا تَنْصُرْ - مَنْصَرٌ - مَنْصَرٌ - مِنْصَرٌ', text: 'Matan Utama Tashrif Istilahi Bab 1: Nasara (Fi\'il Madhi) - Yansuru (Mudhari\') - Nasran & Mansaran (Mashdar) - Naasirun (Isim Fa\'il) - Mansoorun (Isim Maf\'ul) - Unsur (Fi\'il Amar) - Laa Tansur (Fi\'il Nahyi) - Mansarun (Isim Zaman/Makan) - Minsarun (Isim Alat).' },
+      { id: 'c3', type: 'explanation', text: 'Variasi Bina\' Bab 1:\n- Bina\' Shahih: نَصَرَ - يَنْصُرُ\n- Bina\' Mudha\'af: مَدَّ - يَمُدُّ - مَدًّا\n- Bina\' Ajwaf Wawi: صَانَ - يَصُونُ - صَوْنًا\n- Bina\' Naqish Wawi: غَزَا - يَغْزُو - غَزْوًا\n- Bina\' Mahmuz Fa: أَمَلَ - يَأْمُلُ - أَمَلًا' },
     ],
   },
   'shorof-lesson-2': {
-    lesson: { id: 'shorof-lesson-2', title: '2. Bab 2: Wazan فَعَلَ - يَفْعِلُ (ضَرَبَ - يَضْرِبُ)', titleArabic: 'فَعَلَ - يَفْعِلُ', xpReward: 30, chapterTitle: 'Bab 1: Tashrif Tsulatsi Mujarrad', category: 'shorof' },
+    lesson: { id: 'shorof-lesson-2', title: '2. Bab 2: Wazan فَعَلَ - يَفْعِلُ (ضَرَبَ - يَضْرِبُ)', titleArabic: 'فَعَلَ - يَفْعِلُ', xpReward: 30, chapterTitle: 'Bab 1: Tashrif Istilahi Tsulatsi Mujarrad', category: 'shorof' },
     contents: [
-      { id: 'c1', type: 'arabic_text', arabic: 'ضَرَبَ - يَضْرِبُ - ضَرْبًا - فَهُوَ ضَارِبٌ - وَذَاكَ مَضْرُوبٌ - اِضْرِبْ - لَا تَضْرِبْ', text: 'Wazan Bab Kedua Shorof: Daraba - Yadribu.' },
+      { id: 'c1', type: 'arabic_text', arabic: 'ضَرَبَ - يَضْرِبُ - ضَرْبًا وَمَضْرَبًا - فَهُوَ ضَارِبٌ - وَذَاكَ مَضْرُوبٌ - اِضْرِبْ - لَا تَضْرِبْ - مَضْرِبٌ - مَضْرِبٌ - مِضْرَبٌ', text: 'Matan Utama Bab 2: Daraba - Yadribu - Darban - Daaribun - Madroobun - Idrib - Laa Tadrib.' },
+      { id: 'c2', type: 'explanation', text: 'Variasi Bina\' Bab 2:\n- Shahih: ضَرَبَ - يَضْرِبُ\n- Mudha\'af: فَرَّ - يَفِرُّ\n- Mitsal Wawi: وَعَدَ - يَعِدُ\n- Mitsal Ya\'i: يَسَرَ - يَيْسِرُ\n- Ajwaf Ya\'i: سَارَ - يَسِيرُ\n- Naqish Ya\'i: سَرَى - يَسْرِي\n- Lafif Mafruq: وَقَى - يَقِي\n- Lafif Maqrun: شَوَى - يَشْوِي' },
     ],
   },
   'shorof-lesson-3': {
-    lesson: { id: 'shorof-lesson-3', title: '3. Bab 3: Wazan فَعَلَ - يَفْعَلُ (فَتَحَ - يَفْتَحُ)', titleArabic: 'فَعَلَ - يَفْعَلُ', xpReward: 30, chapterTitle: 'Bab 1: Tashrif Tsulatsi Mujarrad', category: 'shorof' },
+    lesson: { id: 'shorof-lesson-3', title: '3. Bab 3: Wazan فَعَلَ - يَفْعَلُ (فَتَحَ - يَفْتَحُ)', titleArabic: 'فَعَلَ - يَفْعَلُ', xpReward: 30, chapterTitle: 'Bab 1: Tashrif Istilahi Tsulatsi Mujarrad', category: 'shorof' },
     contents: [
-      { id: 'c1', type: 'arabic_text', arabic: 'فَتَحَ - يَفْتَحُ - فَتْحًا - فَهُوَ فَاتِحٌ - وَذَاكَ مَفْتُوحٌ - اِفْتَحْ', text: 'Wazan Bab Ketiga Shorof: Fataha - Yaftahu.' },
+      { id: 'c1', type: 'arabic_text', arabic: 'فَتَحَ - يَفْتَحُ - فَتْحًا وَمَفْتَحًا - فَهُوَ فَاتِحٌ - وَذَاكَ مَفْتُوحٌ - اِفْتَحْ - لَا تَفْتَحْ - مَفْتَحٌ - مَفْتَحٌ - مِفْتَحٌ', text: 'Matan Utama Bab 3: Fataha - Yaftahu - Fathan - Faatihun - Maftoohun - Iftah - Laa Taftah.' },
+      { id: 'c2', type: 'explanation', text: 'Syarat khusus Bab 3: Harus memiliki salah satu Huruf Tenggorokan (Huruf Halq: ء, هـ, ع, ح, غ, خ) pada \'Ain Fi\'il atau Lam Fi\'ilnya.' },
     ],
   },
   'shorof-lesson-4': {
-    lesson: { id: 'shorof-lesson-4', title: '4. Bab 4: Wazan فَعِلَ - يَفْعَلُ (عَلِمَ - يَعْلَمُ)', titleArabic: 'فَعِلَ - يَفْعَلُ', xpReward: 30, chapterTitle: 'Bab 1: Tashrif Tsulatsi Mujarrad', category: 'shorof' },
+    lesson: { id: 'shorof-lesson-4', title: '4. Bab 4: Wazan فَعِلَ - يَفْعَلُ (عَلِمَ - يَعْلَمُ)', titleArabic: 'فَعِلَ - يَفْعَلُ', xpReward: 30, chapterTitle: 'Bab 1: Tashrif Istilahi Tsulatsi Mujarrad', category: 'shorof' },
     contents: [
-      { id: 'c1', type: 'arabic_text', arabic: 'عَلِمَ - يَعْلَمُ - عِلْمًا - فَهُوَ عَالِمٌ - وَذَاكَ مَعْلُومٌ - اِعْلَمْ', text: 'Wazan Bab Keempat Shorof: \'Alima - Ya\'lamu.' },
+      { id: 'c1', type: 'arabic_text', arabic: 'عَلِمَ - يَعْلَمُ - عِلْمًا وَمَعْلَمًا - فَهُوَ عَالِمٌ - وَذَاكَ مَعْلُومٌ - اِعْلَمْ - لَا تَعْلَمْ - مَعْلَمٌ - مَعْلَمٌ - مِعْلَمٌ', text: 'Matan Utama Bab 4: \'Alima - Ya\'lamu - \'Ilman - \'Aalimun - Ma\'loomun - I\'lam - Laa Ta\'lam.' },
+      { id: 'c2', type: 'example', arabic: 'عَضَّ (Mudha\'af) | خَافَ (Ajwaf Wawi) | رَضِيَ (Naqish Ya\'i)', text: 'Contoh bentukan bina\' pada Bab 4.' },
     ],
   },
   'shorof-lesson-5': {
-    lesson: { id: 'shorof-lesson-5', title: '5. Bab 5: Wazan فَعُلَ - يَفْعُلُ (حَسُنَ - يَحْسُنُ)', titleArabic: 'فَعُلَ - يَفْعُلُ', xpReward: 30, chapterTitle: 'Bab 1: Tashrif Tsulatsi Mujarrad', category: 'shorof' },
+    lesson: { id: 'shorof-lesson-5', title: '5. Bab 5: Wazan فَعُلَ - يَفْعُلُ (حَسُنَ - يَحْسُنُ)', titleArabic: 'فَعُلَ - يَفْعُلُ', xpReward: 30, chapterTitle: 'Bab 1: Tashrif Istilahi Tsulatsi Mujarrad', category: 'shorof' },
     contents: [
-      { id: 'c1', type: 'arabic_text', arabic: 'حَسُنَ - يَحْسُنُ - حُسْنًا - فَهُوَ حَسَنٌ - اُحْسُنْ', text: 'Wazan Bab Kelima Shorof.' },
+      { id: 'c1', type: 'arabic_text', arabic: 'حَسُنَ - يَحْسُنُ - حُسْنًا وَمَحْسَنًا - فَهُوَ حَسَنٌ - أُحْسُنْ - لَا تَحْسُنْ - مَحْسَنٌ - مَحْسَنٌ', text: 'Matan Utama Bab 5: Hasuna - Yahsunu - Husnan - Hasanun - Uhsun - Laa Tahsun.' },
+      { id: 'c2', type: 'explanation', text: 'Catatan Bab 5: Fi\'il Bab 5 selalu merupakan kata kerja lazim (tidak membutuhkan objek) dan menunjukkan sifat/karakter yang melekat.' },
     ],
   },
   'shorof-lesson-6': {
-    lesson: { id: 'shorof-lesson-6', title: '6. Bab 6: Wazan فَعِلَ - يَفْعِلُ (حَسِبَ - يَحْسِبُ)', titleArabic: 'فَعِلَ - يَفْعِلُ', xpReward: 30, chapterTitle: 'Bab 1: Tashrif Tsulatsi Mujarrad', category: 'shorof' },
+    lesson: { id: 'shorof-lesson-6', title: '6. Bab 6: Wazan فَعِلَ - يَفْعِلُ (حَسِبَ - يَحْسِبُ)', titleArabic: 'فَعِلَ - يَفْعِلُ', xpReward: 30, chapterTitle: 'Bab 1: Tashrif Istilahi Tsulatsi Mujarrad', category: 'shorof' },
     contents: [
-      { id: 'c1', type: 'arabic_text', arabic: 'حَسِبَ - يَحْسِبُ - حِسْبَانًا - فَهُوَ حَاسِبٌ - وَذَاكَ مَحْسُوبٌ', text: 'Wazan Bab Keenam Shorof.' },
+      { id: 'c1', type: 'arabic_text', arabic: 'حَسِبَ - يَحْسِبُ - حِسْبَانًا وَمَحْسَبًا - فَهُوَ حَاسِبٌ - وَذَاكَ مَحْسُوبٌ - اِحْسِبْ - لَا تَحْسِبْ - مَحْسَبٌ - مَحْسَبٌ', text: 'Matan Utama Bab 6: Hasiba - Yahsibu - Hisbaanan - Haasibun - Mahsoobun - Ihsib - Laa Tahsib.' },
     ],
   },
   'shorof-lesson-7': {
-    lesson: { id: 'shorof-lesson-7', title: '7. Tsulatsi Mazid 1 Huruf (أَفْعَلَ, فَعَّلَ, فَاعَلَ)', titleArabic: 'الثلاثي المزيد بحرف', xpReward: 35, chapterTitle: 'Bab 2: Tashrif Tsulatsi Mazid', category: 'shorof' },
+    lesson: { id: 'shorof-lesson-7', title: '7. Rubai Mujarrad Wazan فَعْلَلَ - يُفَعْلِلُ (دَحْرَجَ - يُدَحْرِجُ)', titleArabic: 'دَحْرَجَ - يُدَحْرِجُ', xpReward: 35, chapterTitle: 'Bab 2: Tashrif Istilahi Rubai Mujarrad & Mulhaq', category: 'shorof' },
     contents: [
-      { id: 'c1', type: 'arabic_text', arabic: 'أَكْرَمَ - يُكْرِمُ | كَبَّرَ - يُكَبِّرُ | قَاتَلَ - يُقَاتِلُ', text: 'Tashrif kata kerja 3 huruf dengan tambahan 1 huruf (Hamzah, Tasydid, Alif).' },
+      { id: 'c1', type: 'arabic_text', arabic: 'دَحْرَجَ - يُدَحْرِجُ - دَحْرَجَةً وَدِحْرَاجًا - فَهُوَ مُدَحْرِجٌ - وَذَاكَ مُدَحْرَجٌ - دَحْرِجْ - لَا تُدَحْرِجْ - مُدَحْرَجٌ', text: 'Tashrif Rubai Mujarrad (Kata 4 huruf asli): Dahraja - Yudahriju - Dahrajatan wa Dihraajan.' },
     ],
   },
   'shorof-lesson-8': {
-    lesson: { id: 'shorof-lesson-8', title: '8. Tsulatsi Mazid 2 & 3 Huruf (إِسْتَفْعَلَ dll)', titleArabic: 'الثلاثي المزيد بحرفين وثلاثة', xpReward: 40, chapterTitle: 'Bab 2: Tashrif Tsulatsi Mazid', category: 'shorof' },
+    lesson: { id: 'shorof-lesson-8', title: '8. Mulhaq Rubai 7 Wazan (حَمْدَلَ, حَوْقَلَ, بَسْمَلَ dll)', titleArabic: 'مُلْحَقُ الرُّبَاعِيِّ', xpReward: 35, chapterTitle: 'Bab 2: Tashrif Istilahi Rubai Mujarrad & Mulhaq', category: 'shorof' },
     contents: [
-      { id: 'c1', type: 'arabic_text', arabic: 'إِسْتَغْفَرَ - يَسْتَغْفِرُ - إِسْتِغْفَارًا', text: 'Tashrif kata kerja 3 huruf dengan tambahan 3 huruf (Istaghfara = Memohon ampunan).' },
+      { id: 'c1', type: 'arabic_text', arabic: 'حَمْدَلَ (Alhamdulillah) | هَيْلَلَ (Laa ilaha illallah) | حَوْقَلَ (Laa haula wa laa quwwata) | بَسْمَلَ (Bismillah)', text: 'Pola Mulhaq Rubai yang dipakai pada singkatan kalimat dzikir (Naht).' },
+    ],
+  },
+  'shorof-lesson-9': {
+    lesson: { id: 'shorof-lesson-9', title: '9. Tsulatsi Mazid 1 Huruf (فَعَّلَ, فَاعَلَ, أَفْعَلَ)', titleArabic: 'الثلاثي المزيد بحرف', xpReward: 35, chapterTitle: 'Bab 3: Tashrif Istilahi Tsulatsi Mazid', category: 'shorof' },
+    contents: [
+      { id: 'c1', type: 'arabic_text', arabic: 'فَرَّحَ - يُفَرِّحُ - تَفْرِيحًا (Fa\'\'ala) | قَاتَلَ - يُقَاتِلُ - مُقَاتَلَةً (Faa\'ala) | أَكْرَمَ - يُكْرِمُ - إِكْرَامًا (Af\'ala)', text: '3 wazan tambahan 1 huruf pada kata kerja 3 huruf dasar.' },
+    ],
+  },
+  'shorof-lesson-10': {
+    lesson: { id: 'shorof-lesson-10', title: '10. Tsulatsi Mazid 2 Huruf (تَفَاعَلَ, تَفَعَّلَ, إِفْتَعَلَ, إِنْفَعَلَ, إِفْعَلَّ)', titleArabic: 'الثلاثي المزيد بحرفين', xpReward: 40, chapterTitle: 'Bab 3: Tashrif Istilahi Tsulatsi Mazid', category: 'shorof' },
+    contents: [
+      { id: 'c1', type: 'arabic_text', arabic: 'تَبَاعَدَ (Taba\'ada) | تَكَسَّرَ (Takassara) | إِجْتَمَعَ (Ijtama\'a) | إِنْكَسَرَ (Inkasara) | إِحْمَرَّ (Ihmarra)', text: '5 wazan kata kerja dengan tambahan 2 huruf.' },
+    ],
+  },
+  'shorof-lesson-11': {
+    lesson: { id: 'shorof-lesson-11', title: '11. Tsulatsi Mazid 3 Huruf (إِسْتَفْعَلَ, إِفْعَوْعَلَ, إِفْعَالَّ, إِفْعَوَّلَ)', titleArabic: 'الثلاثي المزيد بثلاثة', xpReward: 40, chapterTitle: 'Bab 3: Tashrif Istilahi Tsulatsi Mazid', category: 'shorof' },
+    contents: [
+      { id: 'c1', type: 'arabic_text', arabic: 'إِسْتَخْرَجَ - يَسْتَخْرِجُ - إِسْتِخْرَاجًا (Istakhraja = Mengeluarkan) | إِحْدَوْدَبَ (Ihdawdaba) | إِصْهَارَّ | إِعْلَوَّطَ', text: '4 wazan kata kerja dengan tambahan 3 huruf.' },
+    ],
+  },
+  'shorof-lesson-12': {
+    lesson: { id: 'shorof-lesson-12', title: '12. Mulhaq Rubai Mazid (تَفَعْلَلَ, تَفَعْلَى, إِفْعَنْلَلَ, إِفْعَنْلَى, إِفْعَلَلَّ)', titleArabic: 'ملحق الرباعي المزيد', xpReward: 40, chapterTitle: 'Bab 4: Mulhaq Rubai Mazid', category: 'shorof' },
+    contents: [
+      { id: 'c1', type: 'arabic_text', arabic: 'تَدَحْرَجَ (Tadahraja) | إِحْرَنْجَمَ (Ihranjama) | إِقْشَعَرَّ (Iqsha\'arra = Gemetar)', text: 'Bentukan Mulhaq Rubai Mazid.' },
+    ],
+  },
+  'shorof-lesson-13': {
+    lesson: { id: 'shorof-lesson-13', title: '13. Tashrif Lughawi Fi\'il Madhi Ma\'lum (14 Dhamir)', titleArabic: 'فَعَلَ - فَعَلَا - فَعَلُوا', xpReward: 40, chapterTitle: 'Bab 5: Tashrif Lughawi Fi\'il Madhi & Mudhari', category: 'shorof' },
+    contents: [
+      { id: 'c1', type: 'arabic_text', arabic: 'فَعَلَ - فَعَلَا - فَعَلُوا - فَعَلَتْ - فَعَلَتَا - فَعَلْنَ - فَعَلْتَ - فَعَلْتُمَا - فَعَلْتُمْ - فَعَلْتِ - فَعَلْتُمَا - فَعَلْتُنَّ - فَعَلْتُ - فَعَلْنَا', text: 'Tashrif Lughawi lengkap 14 Kata Ganti (Dhamir) untuk Fi\'il Madhi Aktif (Ma\'lum).' },
+    ],
+  },
+  'shorof-lesson-14': {
+    lesson: { id: 'shorof-lesson-14', title: '14. Tashrif Lughawi Fi\'il Madhi Majhul Pasif (14 Dhamir)', titleArabic: 'فُعِلَ - فُعِلَا - فُعِلُوا', xpReward: 40, chapterTitle: 'Bab 5: Tashrif Lughawi Fi\'il Madhi & Mudhari', category: 'shorof' },
+    contents: [
+      { id: 'c1', type: 'arabic_text', arabic: 'فُعِلَ - فُعِلَا - فُعِلُوا - فُعِلَتْ - فُعِلَتَا - فُعِلْنَ - فُعِلْتَ - فُعِلْتُمَا - فُعِلْتُمْ - فُعِلْتِ - فُعِلْتُمَا - فُعِلْتُنَّ - فُعِلْتُ - فُعِلْنَا', text: 'Tashrif Lughawi lengkap 14 Kata Ganti (Dhamir) untuk Fi\'il Madhi Pasif (Majhul).' },
+    ],
+  },
+  'shorof-lesson-15': {
+    lesson: { id: 'shorof-lesson-15', title: '15. Tashrif Lughawi Fi\'il Mudhari Ma\'lum (14 Dhamir)', titleArabic: 'يَفْعُلُ - يَفْعُلَانِ - يَفْعُلُونَ', xpReward: 40, chapterTitle: 'Bab 5: Tashrif Lughawi Fi\'il Madhi & Mudhari', category: 'shorof' },
+    contents: [
+      { id: 'c1', type: 'arabic_text', arabic: 'يَفْعُلُ - يَفْعُلَانِ - يَفْعُلُونَ - تَفْعُلُ - تَفْعُلَانِ - يَفْعُلْنَ - تَفْعُلُ - تَفْعُلَانِ - تَفْعُلُونَ - تَفْعُلِينَ - تَفْعُلَانِ - تَفْعُلْنَ - أَفْعُلُ - نَفْعُلُ', text: 'Tashrif Lughawi lengkap 14 Dhamir untuk Fi\'il Mudhari Aktif (Ma\'lum).' },
+    ],
+  },
+  'shorof-lesson-16': {
+    lesson: { id: 'shorof-lesson-16', title: '16. Tashrif Lughawi Fi\'il Mudhari Majhul (14 Dhamir)', titleArabic: 'يُفْعَلُ - يُفْعَلَانِ - يُفْعَلُونَ', xpReward: 40, chapterTitle: 'Bab 5: Tashrif Lughawi Fi\'il Madhi & Mudhari', category: 'shorof' },
+    contents: [
+      { id: 'c1', type: 'arabic_text', arabic: 'يُفْعَلُ - يُفْعَلَانِ - يُفْعَلُونَ - تُفْعَلُ - تُفْعَلَانِ - يُفْعَلْنَ...', text: 'Tashrif Lughawi lengkap 14 Dhamir untuk Fi\'il Mudhari Pasif (Majhul).' },
+    ],
+  },
+  'shorof-lesson-17': {
+    lesson: { id: 'shorof-lesson-17', title: '17. Fi\'il Mudhari Nun Taukid Tsaqilah & Khafifah', titleArabic: 'يَصُونَنَّ - يَصُونَنْ', xpReward: 40, chapterTitle: 'Bab 6: Tashrif Lughawi Fi\'il Amar, Nahyi & Nun Taukid', category: 'shorof' },
+    contents: [
+      { id: 'c1', type: 'arabic_text', arabic: 'يَصُونَنَّ - يَصُونَانِّ - يَصُونُنَّ (Nun Taukid Tsaqilah Berharakat Tasydid) | يَصُونَنْ (Nun Taukid Khafifah Sukun)', text: 'Penambahan Nun Taukid untuk memberikan penegasan kuat pada makna fi\'il.' },
+    ],
+  },
+  'shorof-lesson-18': {
+    lesson: { id: 'shorof-lesson-18', title: '18. Fi\'il Amar Perintah Ma\'lum & Majhul', titleArabic: 'أُفْعُلْ - صُنْ - لِيُصَنَّ', xpReward: 40, chapterTitle: 'Bab 6: Tashrif Lughawi Fi\'il Amar, Nahyi & Nun Taukid', category: 'shorof' },
+    contents: [
+      { id: 'c1', type: 'arabic_text', arabic: 'أُفْعُلْ - أُفْعُلَا - أُفْعُلُوا - أُفْعُلِي - أُفْعُلَا - أُفْعُلْنَ (Ma\'lum) | لِيُصَنَّ - لِيُصَانَا (Majhul)', text: 'Bentukan perintah untuk 6 kata ganti lawan bicara (Mukhatab).' },
+    ],
+  },
+  'shorof-lesson-19': {
+    lesson: { id: 'shorof-lesson-19', title: '19. Fi\'il Nahyi Larangan', titleArabic: 'لَا تَفْعُلْ - لَا تَصُنْ', xpReward: 40, chapterTitle: 'Bab 6: Tashrif Lughawi Fi\'il Amar, Nahyi & Nun Taukid', category: 'shorof' },
+    contents: [
+      { id: 'c1', type: 'arabic_text', arabic: 'لَا تَفْعُلْ - لَا تَفْعُلَا - لَا تَفْعُلُوا - لَا تَفْعُلِي - لَا تَفْعُلَا - لَا تَفْعُلْنَ', text: 'Bentukan larangan diawali "Laa Nahyah".' },
+    ],
+  },
+  'shorof-lesson-20': {
+    lesson: { id: 'shorof-lesson-20', title: '20. Tashrif Lughawi Isim Fa\'il & Isim Maf\'ul', titleArabic: 'فَاعِلٌ - مَفْعُولٌ', xpReward: 40, chapterTitle: 'Bab 7: Tashrif Lughawi Isim Fa\'il, Maf\'ul, Sifat & Zaman/Makan/Alat', category: 'shorof' },
+    contents: [
+      { id: 'c1', type: 'arabic_text', arabic: 'فَاعِلٌ - فَاعِلَانِ - فَاعِلُونَ - فَاعِلَةٌ - فَاعِلَتَانِ - فَاعِلَاتٌ | مَفْعُولٌ - مَفْعُولَانِ - مَفْعُولُونَ', text: 'Perubahan kata benda pelaku & penerima aksi berdasarkan jumlah (Tunggal, Dual, Jamak) & gender (Laki-laki/Perempuan).' },
+    ],
+  },
+  'shorof-lesson-21': {
+    lesson: { id: 'shorof-lesson-21', title: '21. Tashrif Lughawi Sifat Musyabbahah bi Ismi Fa\'il', titleArabic: 'حَسَنٌ - حَسَنَانِ - حَسَنُونَ', xpReward: 40, chapterTitle: 'Bab 7: Tashrif Lughawi Isim Fa\'il, Maf\'ul, Sifat & Zaman/Makan/Alat', category: 'shorof' },
+    contents: [
+      { id: 'c1', type: 'arabic_text', arabic: 'حَسَنٌ - حَسَنَانِ - حَسَنُونَ | شَجَاعٌ - شَجَاعَانِ - شُجْعَانٌ', text: 'Kata sifat yang menyerupai isim fa\'il dalam makna.' },
+    ],
+  },
+  'shorof-lesson-22': {
+    lesson: { id: 'shorof-lesson-22', title: '22. Tashrif Lughawi Asma\' Az-Zaman, Al-Makan & Al-Alah', titleArabic: 'مَفْعَلٌ - مَفْعَلَانِ - مَفَاعِلُ', xpReward: 40, chapterTitle: 'Bab 7: Tashrif Lughawi Isim Fa\'il, Maf\'ul, Sifat & Zaman/Makan/Alat', category: 'shorof' },
+    contents: [
+      { id: 'c1', type: 'arabic_text', arabic: 'مَفْعَلٌ - مَفْعَلَانِ - مَفَاعِلُ (Isim Zaman/Makan) | مِفْعَلٌ - مِفْعَلَانِ - مَفَاعِلُ (Isim Alat)', text: 'Kata benda penunjuk waktu, tempat, dan alat perbuatan.' },
+    ],
+  },
+  'shorof-lesson-23': {
+    lesson: { id: 'shorof-lesson-23', title: '23. Tadziyil & Biografi Sheikh Muhammad Ma\'shum bin Ali Jombang', titleArabic: 'تَذْيِيْلٌ وَخَاتِمَةٌ', xpReward: 50, chapterTitle: 'Bab 8: Tadziyil & Penutup Kitab Al-Amtsilah At-Tashrifiyyah', category: 'shorof' },
+    contents: [
+      { id: 'c1', type: 'text', text: 'Matan Penutup (Tadziyil) Kitab Al-Amtsilah At-Tashrifiyyah karya Sheikh Muhammad Ma\'shum bin Ali Jombang:' },
+      { id: 'c2', type: 'arabic_text', arabic: 'تَمَّتْ هَذِهِ الْأَمْثِلَةُ الْمُخْتَلِفَةُ بِعَوْنِ اللهِ الْمَلِكِ الْوَهَّابِ. جَعَلَهَا اللهُ مَيْمُونَةً وَغَفَرَ لِكَاتِبِهَا وَلِمُؤَلِّفِهَا وَلِجَمِيعِ الْمُسْلِمِينَ آمِينَ', text: 'Selesailah pengubahan susunan Al-Amtsilah ini dengan pertolongan Allah. Semoga Allah menjadikannya membawa keberkahan dan mengampuni penulis, penyusun, serta seluruh kaum muslimin. Amin.' },
+      { id: 'c3', type: 'explanation', text: 'Biografi Penyusun:\nSyekh Muhammad Ma\'shum bin Ali lahir di Maskumambang, Gresik dan merupakan menantu Hadratusysyaikh KH. Hasyim Asy\'ari (pendiri Pesantren Tebuireng Jombang). Kitab Al-Amtsilah At-Tashrifiyyah karya beliau yang diselesaikan pada bulan Ramadhan 1351 H ini menjadi rujukan utama pembelajaran ilmu Shorof di seluruh pesantren di Indonesia hingga saat ini.' },
     ],
   },
 };

